@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "Bitmap.h"
 #include "Geometry.h"
 
 namespace TileEngine {
@@ -15,7 +16,7 @@ namespace TileEngine {
 
     virtual ~RendererBase() {}
 
-    virtual void RenderBitmap(unsigned level, const Rect &absRect) = 0;
+    virtual void RenderBitmap(unsigned level, const Rect &absRect, Bitmap::BitmapPtr s) = 0;
     virtual void RenderPrimitive(unsigned level) = 0;
   };
 

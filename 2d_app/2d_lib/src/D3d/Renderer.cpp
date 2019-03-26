@@ -198,7 +198,7 @@ namespace TileEngine {
       }
     }
 
-    void Renderer::RenderBitmap(unsigned level, const Rect &absRect) {
+    void Renderer::RenderBitmap(unsigned level, const Rect &absRect, Bitmap::BitmapPtr s) {
     }
     
     void Renderer::RenderPrimitive(unsigned level) {

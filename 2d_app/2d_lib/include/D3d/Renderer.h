@@ -36,7 +36,7 @@ namespace TileEngine {
       void Render();
 
       // RendererBase
-      void RenderBitmap(unsigned level, const Rect &absRect) override;
+      void RenderBitmap(unsigned level, const Rect &absRect, Bitmap::BitmapPtr s) override;
       void RenderPrimitive(unsigned level) override;
 
 

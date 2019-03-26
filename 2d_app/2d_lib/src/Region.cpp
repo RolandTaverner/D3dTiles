@@ -99,17 +99,52 @@ namespace TileEngine {
     }
   }
 
+  class GraphicElementVisitor {
+  public:
+    GraphicElementVisitor(unsigned level, const Position &position, RendererBase::RendererBasePtr renderer) :
+      m_level(level), m_position(position), m_renderer(renderer){
+    }
+
+    void operator()(Bitmap::BitmapPtr &s) {
+      Position minPoint(m_position);
+      Position maxPoint(m_position);
+      boost::geometry::add_point(maxPoint, Position(s->Width(), s->Height()));
+      m_renderer->RenderBitmap(m_level, Rect(minPoint, maxPoint), s);
+    }
+  
+  private:
+    unsigned m_level;
+    Position m_position;
+    RendererBase::RendererBasePtr m_renderer;
+  };
+
   void Region::RenderSelf(unsigned level, const Position &position, RendererBase::RendererBasePtr renderer) {
-
+    
+    for (auto e : m_graphics) {
+      Position pos(position);
+      boost::geometry::add_point(pos, e.position);
+      
+      GraphicElementVisitor visitor(level, pos, renderer);
+      std::visit<>(visitor, e.element);
+    }
   }
-
-
+  
   void Region::DrawPrimitive() {
 
   }
 
-  void Region::DrawImage() {
-
+  void Region::DrawImage(const Position &position, Bitmap::BitmapPtr bitmap) {
+    m_graphics.push_back(GraphicElementPosition{ position, GraphicElement(bitmap) });
   }
+
+  void Region::Clear(bool children) {
+    m_graphics.clear();
+    if (children) {
+      for (auto child : m_children) {
+        child.second.region->Clear(children);
+      }
+    }
+  }
+
 
 } // namespace TileEngine

@@ -41,6 +41,25 @@ namespace TileEngine {
     return *this;
   }
 
+  Bitmap::Bitmap(Bitmap &&rhs) {
+    m_staticID = std::move(rhs.m_staticID);
+    m_width = rhs.m_width;
+    m_height = rhs.m_height;
+    m_pixels = std::move(rhs.m_pixels);
+    rhs.m_width = rhs.m_height = 0;
+  }
+
+  Bitmap &Bitmap::operator=(Bitmap &&rhs) {
+    if (this != &rhs) {
+      m_staticID = std::move(rhs.m_staticID);
+      m_width = rhs.m_width;
+      m_height = rhs.m_height;
+      m_pixels = std::move(rhs.m_pixels);
+      rhs.m_width = rhs.m_height = 0;
+    }
+    return *this;
+  }
+
   Bitmap::~Bitmap() {
   }
 

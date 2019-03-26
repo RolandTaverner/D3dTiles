@@ -1,10 +1,13 @@
 #pragma once
 
+#include <list>
 #include <map>
 #include <memory>
+#include <variant>
 
 #include <boost/geometry/arithmetic/arithmetic.hpp>
 
+#include "Bitmap.h"
 #include "Geometry.h"
 #include "RendererBase.h"
 
@@ -18,13 +21,20 @@ namespace TileEngine {
     typedef unsigned long RegionID;
 
   private:
-    typedef struct ChildRegionType {
+    typedef struct {
       Position position;
       RegionPtr region;
     } ChildRegion;
     typedef std::map<RegionID, ChildRegion> RegionsMap;
 
     typedef std::map<unsigned, RegionPtr> LayersMap;
+
+    typedef std::variant<Bitmap::BitmapPtr> GraphicElement;
+    typedef struct {  
+      Position position;
+      GraphicElement element;
+    } GraphicElementPosition;
+    typedef std::list<GraphicElementPosition> GraphicElements;
 
   public:
     Region();
@@ -41,7 +51,9 @@ namespace TileEngine {
     void Render(unsigned level, const Position &position, RendererBase::RendererBasePtr renderer);
 
     void DrawPrimitive();
-    void DrawImage();
+    void DrawImage(const Position &position, Bitmap::BitmapPtr bitmap);
+
+    void Clear(bool children);
 
   private:
     void RenderSelf(unsigned level, const Position &position, RendererBase::RendererBasePtr renderer);
@@ -52,6 +64,7 @@ namespace TileEngine {
     unsigned m_width, m_height;
     RegionsMap m_children;
     LayersMap m_layers;
+    GraphicElements m_graphics;
   };
 
 } // namespace TileEngine

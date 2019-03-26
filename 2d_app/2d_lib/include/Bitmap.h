@@ -13,12 +13,15 @@ namespace TileEngine {
     typedef std::uint32_t Pixel;
     typedef boost::shared_array<Pixel> PixelData;
     typedef boost::shared_array<const Pixel> ConstPixelData;
+    typedef std::shared_ptr<Bitmap> BitmapPtr;
 
     Bitmap(unsigned width, unsigned height, const std::string &staticID, PixelData pixels);
     Bitmap(unsigned width, unsigned height, PixelData pixels);
     Bitmap(unsigned width, unsigned height);
     Bitmap(const Bitmap &rhs);
     Bitmap &operator=(const Bitmap &rhs);
+    Bitmap(Bitmap &&rhs);
+    Bitmap &operator=(Bitmap &&rhs);
     virtual ~Bitmap();
 
     unsigned Width() const;

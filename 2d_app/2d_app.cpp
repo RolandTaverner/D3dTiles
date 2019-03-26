@@ -7,6 +7,7 @@
 
 #include "2d_app.h"
 
+#include "Bitmap.h"
 #include "Region.h"
 
 #include "D3d/Renderer.h"
@@ -66,11 +67,22 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     break;
   }
 
+  TileEngine::Bitmap::BitmapPtr b1(std::make_shared<TileEngine::Bitmap>(20, 20));
+  {
+    auto pixels1 = b1->GetPixelsForUpdate();
+    memset(pixels1.get(), 0xFF, b1->BufSize());
+  }
+  TileEngine::Bitmap::BitmapPtr b2(std::make_shared<TileEngine::Bitmap>(30, 30));
+  {
+    auto pixels2 = b2->GetPixelsForUpdate();
+    memset(pixels2.get(), 0x88, b2->BufSize());
+  }
+
   TileEngine::Region::RegionPtr scene(std::make_shared<TileEngine::Region>(TileEngine::Region::RegionWeakPtr(), 0, 300, 300));
   auto layer = scene->AddLayer(0);
   auto region = layer->AddChild(TileEngine::Position(12, 13), 250, 250);
-
-  //region->AddTile(0, TileEngine::Position(20, 20), 50, 70, TileEngine::D3d::Payload(new TileEngine::D3d::D3dTile()));
+  region->DrawImage(TileEngine::Position(10, 10), b1);
+  region->DrawImage(TileEngine::Position(20, 20), b2);
 
   scene->Render(0, TileEngine::Position(0, 0), rendererPtr);
 
