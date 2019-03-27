@@ -50,10 +50,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
   TileEngine::D3d::RendererPtr rendererPtr(std::make_shared<TileEngine::D3d::Renderer>());
 
-  std::vector<TileEngine::D3d::IDXGIAdapter1Ptr> adapters;
-  rendererPtr->EnumerateAdapters([&adapters](TileEngine::D3d::IDXGIAdapter1Ptr a) { adapters.push_back(a); });
+  std::vector<IDXGIAdapter1Ptr> adapters;
+  rendererPtr->EnumerateAdapters([&adapters](IDXGIAdapter1Ptr a) { adapters.push_back(a); });
 
-  for (TileEngine::D3d::IDXGIAdapter1Ptr adapter : adapters)
+  for (IDXGIAdapter1Ptr adapter : adapters)
   {
     DXGI_ADAPTER_DESC1 desc;
     memset(&desc, 0, sizeof(desc));

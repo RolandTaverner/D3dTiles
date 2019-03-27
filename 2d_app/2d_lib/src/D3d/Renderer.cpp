@@ -2,6 +2,7 @@
 
 #include <string.h>
 
+#include <d3dcompiler.h>
 #include <directxcolors.h>
 
 #include "D3d/Renderer.h"
@@ -108,6 +109,14 @@ namespace TileEngine {
 
       m_worldMatrix = DirectX::XMMatrixIdentity();
       m_orthoMatrix = DirectX::XMMatrixOrthographicLH(width, height, 1.0, 0.0);
+      
+      DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, -3.0f, 5.0f, 0.0f);
+      DirectX::XMVECTOR At = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+      DirectX::XMVECTOR Up = DirectX::XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f);
+      m_viewMatrix = DirectX::XMMatrixLookAtLH(Eye, At, Up);
+
+      InitVertexShader();
+      InitPixelShader();
     }
 
     void Renderer::InitDepthStencilBuffer(const UINT &width, const UINT &height)
@@ -177,9 +186,46 @@ namespace TileEngine {
 
       // Create the depth stencil view.
       HRESULT hr = m_device->CreateDepthStencilView(m_depthStencilBuffer, &depthStencilViewDesc, &m_depthStencilView.GetInterfacePtr());
-      if (FAILED(hr))
+      if (FAILED(hr)) 
       {
         throw std::runtime_error("CreateDepthStencilView() failed");
+      }
+    }
+
+    void Renderer::InitVertexShader() {
+      ID3DBlobPtr vsBlob = CompileShaderFromFile(L"D3dTiles.fx", "VS", "vs_4_0");
+
+      // Create the vertex shader
+      HRESULT hr = m_device->CreateVertexShader(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), nullptr, &m_vertexShader.GetInterfacePtr());
+      if (FAILED(hr)) {
+        throw std::runtime_error("CreateVertexShader() failed");
+      }
+
+      // Define the input layout
+      D3D11_INPUT_ELEMENT_DESC layout[] =
+      {
+          { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+          { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+      };
+      UINT numElements = ARRAYSIZE(layout);
+
+      // Create the input layout
+      hr = m_device->CreateInputLayout(layout, numElements, vsBlob->GetBufferPointer(),
+        vsBlob->GetBufferSize(), &m_vertexLayout.GetInterfacePtr());
+      if (FAILED(hr)) {
+        throw std::runtime_error("CreateInputLayout() failed");
+      }
+
+      m_deviceContext->IASetInputLayout(m_vertexLayout);
+    }
+
+    void Renderer::InitPixelShader() {
+      ID3DBlobPtr vsBlob = CompileShaderFromFile(L"D3dTiles.fx", "PS", "ps_4_0");
+
+      // Create the pixel shader
+      HRESULT hr = m_device->CreatePixelShader(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), nullptr, &m_pixelShader.GetInterfacePtr());
+      if (FAILED(hr)) {
+        throw std::runtime_error("CreatePixelShader() failed");
       }
     }
 
@@ -187,7 +233,7 @@ namespace TileEngine {
     {
       // Begin scene
       // Just clear the backbuffer
-      m_deviceContext->ClearRenderTargetView(m_renderTargetView, ::DirectX::Colors::Red);
+      m_deviceContext->ClearRenderTargetView(m_renderTargetView, ::DirectX::Colors::DarkBlue);
 
 
 
@@ -204,5 +250,34 @@ namespace TileEngine {
     void Renderer::RenderPrimitive(unsigned level) {
     }
 
+    ID3DBlobPtr CompileShaderFromFile(const WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel)
+    {
+      DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
+#ifdef _DEBUG
+      // Set the D3DCOMPILE_DEBUG flag to embed debug information in the shaders.
+      // Setting this flag improves the shader debugging experience, but still allows 
+      // the shaders to be optimized and to run exactly the way they will run in 
+      // the release configuration of this program.
+      dwShaderFlags |= D3DCOMPILE_DEBUG;
+
+      // Disable optimizations to further improve shader debugging
+      dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
+#endif
+
+      ID3DBlobPtr outBlob, errorBlob;
+      HRESULT hr = D3DCompileFromFile(szFileName, nullptr, nullptr, szEntryPoint, szShaderModel,
+        dwShaderFlags, 0, &outBlob.GetInterfacePtr(), &errorBlob.GetInterfacePtr());
+      if (FAILED(hr))
+      {
+        if (errorBlob)
+        {
+          OutputDebugStringA(reinterpret_cast<const char*>(errorBlob->GetBufferPointer()));
+          errorBlob.Release();
+        }
+        throw std::runtime_error("D3DCompileFromFile() failed");
+      }
+
+      return outBlob;
+    }
   } // namespace D3d
 } // namespace TileEngine

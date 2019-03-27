@@ -44,6 +44,8 @@ namespace TileEngine {
       void InitDepthStencilState();
       void InitDepthStencilBuffer(const UINT &width, const UINT &height);
       void InitDepthStencilView();
+      void InitVertexShader();
+      void InitPixelShader();
 
     private:
       DXGIFactory m_dxgi;
@@ -54,6 +56,9 @@ namespace TileEngine {
       ID3D11Texture2DPtr m_depthStencilBuffer;
       ID3D11DepthStencilStatePtr m_depthStencilState;
       ID3D11DepthStencilViewPtr m_depthStencilView;
+      ID3D11VertexShaderPtr m_vertexShader;
+      ID3D11InputLayoutPtr m_vertexLayout;
+      ID3D11PixelShaderPtr m_pixelShader;
 
       DirectX::XMMATRIX m_worldMatrix;
       DirectX::XMMATRIX m_orthoMatrix;
@@ -63,6 +68,8 @@ namespace TileEngine {
     };
 
     typedef std::shared_ptr<Renderer> RendererPtr;
+
+    ID3DBlobPtr CompileShaderFromFile(const WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel);
 
   } // namespace D3d
 } // namespace TileEngine
