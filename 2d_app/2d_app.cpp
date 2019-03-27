@@ -8,7 +8,7 @@
 #include "2d_app.h"
 
 #include "Bitmap.h"
-#include "Region.h"
+#include "Scene.h"
 
 #include "D3d/Renderer.h"
 
@@ -78,13 +78,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     memset(pixels2.get(), 0x88, b2->BufSize());
   }
 
-  TileEngine::Region::RegionPtr scene(std::make_shared<TileEngine::Region>(TileEngine::Region::RegionWeakPtr(), 0, 300, 300));
-  auto layer = scene->AddLayer(0);
+  TileEngine::Scene::ScenePtr scene(std::make_shared<TileEngine::Scene>(300, 300));
+  auto layer = scene->Root()->AddLayer(0);
   auto region = layer->AddChild(TileEngine::Position(12, 13), 250, 250);
   region->DrawImage(TileEngine::Position(10, 10), b1);
   region->DrawImage(TileEngine::Position(20, 20), b2);
 
-  scene->Render(0, TileEngine::Position(0, 0), rendererPtr);
+  rendererPtr->SetScene(scene);
 
   HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MY2DAPP));
 

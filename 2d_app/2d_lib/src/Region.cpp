@@ -4,6 +4,7 @@
 #include <boost/geometry/algorithms/overlaps.hpp>
 
 #include "Region.h"
+#include "RendererBase.h"
 
 namespace TileEngine {
 
@@ -83,7 +84,7 @@ namespace TileEngine {
     return newLevel;
   }
 
-  void Region::Render(unsigned ownLevel, const Position &position, RendererBase::RendererBasePtr renderer) {
+  void Region::Render(unsigned ownLevel, const Position &position, Region::RendererBasePtr renderer) {
     RenderSelf(ownLevel, position, renderer);
 
     unsigned level = ownLevel;
@@ -101,7 +102,7 @@ namespace TileEngine {
 
   class GraphicElementVisitor {
   public:
-    GraphicElementVisitor(unsigned level, const Position &position, RendererBase::RendererBasePtr renderer) :
+    GraphicElementVisitor(unsigned level, const Position &position, Region::RendererBasePtr renderer) :
       m_level(level), m_position(position), m_renderer(renderer){
     }
 
@@ -118,7 +119,7 @@ namespace TileEngine {
     RendererBase::RendererBasePtr m_renderer;
   };
 
-  void Region::RenderSelf(unsigned level, const Position &position, RendererBase::RendererBasePtr renderer) {
+  void Region::RenderSelf(unsigned level, const Position &position, Region::RendererBasePtr renderer) {
     
     for (auto e : m_graphics) {
       Position pos(position);

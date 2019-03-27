@@ -66,6 +66,18 @@
     <ClInclude Include="2d_lib\include\D3d\D3dBitmap.h">
       <Filter>Файлы заголовков\2d_lib\D3d</Filter>
     </ClInclude>
+    <ClInclude Include="2d_lib\include\Scene.h">
+      <Filter>Файлы заголовков\2d_lib</Filter>
+    </ClInclude>
+    <ClInclude Include="2d_lib\include\D3d\D3dTextureCache.h">
+      <Filter>Файлы заголовков\2d_lib\D3d</Filter>
+    </ClInclude>
+    <ClInclude Include="2d_lib\include\D3d\D3dCreateTexture.h">
+      <Filter>Файлы заголовков\2d_lib\D3d</Filter>
+    </ClInclude>
+    <ClInclude Include="2d_lib\include\D3d\TextureShader.h">
+      <Filter>Файлы заголовков\2d_lib\D3d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -87,6 +99,18 @@
       <Filter>Исходные файлы\2d_lib</Filter>
     </ClCompile>
     <ClCompile Include="2d_lib\src\D3d\D3dBitmap.cpp">
+      <Filter>Исходные файлы\2d_lib\D3d</Filter>
+    </ClCompile>
+    <ClCompile Include="2d_lib\src\Scene.cpp">
+      <Filter>Исходные файлы\2d_lib</Filter>
+    </ClCompile>
+    <ClCompile Include="2d_lib\src\D3d\D3dTextureCache.cpp">
+      <Filter>Исходные файлы\2d_lib\D3d</Filter>
+    </ClCompile>
+    <ClCompile Include="2d_lib\src\D3d\D3dCreateTexture.cpp">
+      <Filter>Исходные файлы\2d_lib\D3d</Filter>
+    </ClCompile>
+    <ClCompile Include="2d_lib\src\D3d\TextureShader.cpp">
       <Filter>Исходные файлы\2d_lib\D3d</Filter>
     </ClCompile>
   </ItemGroup>

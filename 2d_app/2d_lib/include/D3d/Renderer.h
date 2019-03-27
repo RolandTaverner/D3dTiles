@@ -4,9 +4,6 @@
 
 #include <boost/scoped_array.hpp>
 
-#include <windows.h>
-#include <comdef.h>
-
 #include <d3d11.h>
 #include <DirectXMath.h>
 
@@ -14,63 +11,71 @@
 
 #include "D3d/DXGIFactory.h"
 #include "D3d/D3dInterfaces.h"
+#include "D3d/D3dTextureCache.h"
+#include "D3d/TextureShader.h"
 
 namespace TileEngine {
-  namespace D3d {
+namespace D3d {
 
-    struct TileVertex
-    {
-      DirectX::XMFLOAT3 Pos;
-      DirectX::XMFLOAT4 Color;
-    };
+struct TileVertex {
+  DirectX::XMFLOAT3 Pos;
+  DirectX::XMFLOAT2 Tex;
+};
 
-    class Renderer :
-      public TileEngine::RendererBase
-    {
-    public:
-      Renderer();
-      virtual ~Renderer();
+class Renderer :
+  public TileEngine::RendererBase {
+public:
+  Renderer();
+  virtual ~Renderer();
 
-      void EnumerateAdapters(const AdapterReceiver &e);
-      void CreateDevice(HWND hWnd, IDXGIAdapter1Ptr adapter);
-      void Render();
+  void EnumerateAdapters(const AdapterReceiver &e);
+  void CreateDevice(HWND hWnd, IDXGIAdapter1Ptr adapter);
+  void Render();
 
-      // RendererBase
-      void RenderBitmap(unsigned level, const Rect &absRect, Bitmap::BitmapPtr s) override;
-      void RenderPrimitive(unsigned level) override;
+  // RendererBase
+  void RenderBitmap(unsigned level, const Rect &absRect, Bitmap::BitmapPtr s) override;
+  void RenderPrimitive(unsigned level) override;
+
+  unsigned ScreenWidth() const;
+  unsigned ScreenHeight() const;
+
+private:
+  // Init functions
+  void InitDepthStencilState();
+  void InitDepthStencilBuffer(const UINT &width, const UINT &height);
+  void InitDepthStencilView();
 
 
-    private:
-      void InitDepthStencilState();
-      void InitDepthStencilBuffer(const UINT &width, const UINT &height);
-      void InitDepthStencilView();
-      void InitVertexShader();
-      void InitPixelShader();
+  // Render helper functions
+  void SetLevelsCount(unsigned levels);
+  unsigned LevelsCount() const;
 
-    private:
-      DXGIFactory m_dxgi;
-      IDXGISwapChainPtr m_swapChain;
-      ID3D11DevicePtr m_device;
-      ID3D11DeviceContextPtr m_deviceContext;
-      ID3D11RenderTargetViewPtr m_renderTargetView;
-      ID3D11Texture2DPtr m_depthStencilBuffer;
-      ID3D11DepthStencilStatePtr m_depthStencilState;
-      ID3D11DepthStencilViewPtr m_depthStencilView;
-      ID3D11VertexShaderPtr m_vertexShader;
-      ID3D11InputLayoutPtr m_vertexLayout;
-      ID3D11PixelShaderPtr m_pixelShader;
+  ID3D11ShaderResourceViewPtr GetFromTextureCache(const std::string &id);
+  bool AddToTextureCache(const std::string &id, ID3D11ShaderResourceViewPtr texture);
 
-      DirectX::XMMATRIX m_worldMatrix;
-      DirectX::XMMATRIX m_orthoMatrix;
-      DirectX::XMMATRIX m_viewMatrix;
+private:
+  unsigned m_screenWidth, m_screenHeight;
 
-      boost::scoped_array<TileVertex> m_vertices;
-    };
+  DXGIFactory m_dxgi;
+  IDXGISwapChainPtr m_swapChain;
+  ID3D11DevicePtr m_device;
+  ID3D11DeviceContextPtr m_deviceContext;
+  ID3D11RenderTargetViewPtr m_renderTargetView;
+  ID3D11Texture2DPtr m_depthStencilBuffer;
+  ID3D11DepthStencilStatePtr m_depthStencilState;
+  ID3D11DepthStencilViewPtr m_depthStencilView;
 
-    typedef std::shared_ptr<Renderer> RendererPtr;
+  DirectX::XMMATRIX m_worldMatrix;
+  DirectX::XMMATRIX m_orthoMatrix;
+  DirectX::XMMATRIX m_viewMatrix;
 
-    ID3DBlobPtr CompileShaderFromFile(const WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel);
+  unsigned m_levelsCount;
+  TextureCache m_texCache;
+  TextureShader m_textureShader;
+};
 
-  } // namespace D3d
+typedef std::shared_ptr<Renderer> RendererPtr;
+
+} // namespace D3d
 } // namespace TileEngine
 

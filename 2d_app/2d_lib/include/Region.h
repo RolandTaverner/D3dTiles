@@ -9,13 +9,15 @@
 
 #include "Bitmap.h"
 #include "Geometry.h"
-#include "RendererBase.h"
 
 namespace TileEngine {
+
+  class RendererBase;
 
   class Region : public std::enable_shared_from_this<Region>
   {
   public:
+    typedef std::shared_ptr<RendererBase> RendererBasePtr;
     typedef std::shared_ptr<Region> RegionPtr;
     typedef std::weak_ptr<Region> RegionWeakPtr;
     typedef unsigned long RegionID;
@@ -48,7 +50,7 @@ namespace TileEngine {
     unsigned GetLevelsCount() const;
     RegionPtr AddChild(Position position, unsigned width, unsigned height);
     RegionPtr AddLayer(unsigned level);
-    void Render(unsigned level, const Position &position, RendererBase::RendererBasePtr renderer);
+    void Render(unsigned level, const Position &position, RendererBasePtr renderer);
 
     void DrawPrimitive();
     void DrawImage(const Position &position, Bitmap::BitmapPtr bitmap);
@@ -56,7 +58,7 @@ namespace TileEngine {
     void Clear(bool children);
 
   private:
-    void RenderSelf(unsigned level, const Position &position, RendererBase::RendererBasePtr renderer);
+    void RenderSelf(unsigned level, const Position &position, RendererBasePtr renderer);
 
   private:
     RegionWeakPtr m_parent;
