@@ -50,8 +50,8 @@ private:
   void SetLevelsCount(unsigned levels);
   unsigned LevelsCount() const;
 
-  ID3D11ShaderResourceViewPtr GetFromTextureCache(const std::string &id);
-  bool AddToTextureCache(const std::string &id, ID3D11ShaderResourceViewPtr texture);
+  ID3D11Texture2DPtr GetFromTextureCache(const std::string &id);
+  bool AddToTextureCache(const std::string &id, ID3D11Texture2DPtr texture);
 
 private:
   unsigned m_screenWidth, m_screenHeight;

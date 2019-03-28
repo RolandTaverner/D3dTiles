@@ -22,7 +22,8 @@ SamplerState linearSampler
   AddressV = Wrap;
 };
 
-struct VS_INPUT {
+struct VS_INPUT
+{
   float4 position : POSITION;
   float2 tex : TEXCOORD0;
 };
@@ -34,17 +35,31 @@ struct VS_OUTPUT
   float2 tex : TEXCOORD0;
 };
 
+BlendState AlphaBlending
+{
+    AlphaToCoverageEnable = TRUE;
+    BlendEnable[0] = TRUE;
+    SrcBlend = SRC_ALPHA;
+    DestBlend = INV_SRC_ALPHA;
+    BlendOp = ADD;
+    SrcBlendAlpha = ZERO;
+    DestBlendAlpha = ZERO;
+    BlendOpAlpha = ADD;
+    RenderTargetWriteMask[0] = 0x0F;
+};
+/*
 BlendState SrcAlphaBlendingAdd
 {
   BlendEnable[0] = TRUE;
   SrcBlend = SRC_ALPHA;
-  DestBlend = INV_SRC_ALPHA;
+  DestBlend = INV_SRC_COLOR;
   BlendOp = ADD;
   SrcBlendAlpha = ZERO;
   DestBlendAlpha = ZERO;
   BlendOpAlpha = ADD;
   RenderTargetWriteMask[0] = 0x0F;
 };
+*/
 
 //--------------------------------------------------------------------------------------
 // Vertex Shader
@@ -82,6 +97,6 @@ technique10 render {
     SetGeometryShader(NULL);
     SetPixelShader(CompileShader(ps_4_0, PS()));
 
-    SetBlendState(SrcAlphaBlendingAdd, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
+    SetBlendState(AlphaBlending, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
   }
 }

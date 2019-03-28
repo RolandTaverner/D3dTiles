@@ -24,13 +24,13 @@ public:
   TextureShader();
   ~TextureShader();
 
-  void Initialize(ID3D11DevicePtr device, HWND hWnd);
+  void Initialize(ID3D11DevicePtr device);
   bool Render(ID3D11DeviceContextPtr deviceContext, unsigned indexCount,
     const DirectX::XMMATRIX &worldMatrix, const DirectX::XMMATRIX &viewMatrix, const DirectX::XMMATRIX &projectionMatrix,
     ID3D11ShaderResourceViewPtr texture);
 
 private:
-  void InitializeShader(ID3D11DevicePtr device, HWND hWnd, const std::wstring &vsFilename, const std::wstring &psFilename);
+  void InitializeShader(ID3D11DevicePtr device, const std::wstring &vsFilename, const std::wstring &psFilename);
   void InitVertexShader(ID3D11DevicePtr device, const std::wstring &vsFilename);
   void InitPixelShader(ID3D11DevicePtr device, const std::wstring &psFilename);
 

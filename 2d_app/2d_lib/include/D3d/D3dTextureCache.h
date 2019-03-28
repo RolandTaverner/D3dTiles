@@ -13,11 +13,11 @@ public:
   TextureCache();
   virtual ~TextureCache();
 
-  ID3D11ShaderResourceViewPtr TryGet(const std::string &id);
-  bool Set(const std::string &id, ID3D11ShaderResourceViewPtr texture);
+  ID3D11Texture2DPtr TryGet(const std::string &id);
+  bool Set(const std::string &id, ID3D11Texture2DPtr texture);
 
 private:
-  typedef std::map<std::string, ID3D11ShaderResourceViewPtr> CacheType;
+  typedef std::map<std::string, ID3D11Texture2DPtr> CacheType;
 
   CacheType m_cache;
 };

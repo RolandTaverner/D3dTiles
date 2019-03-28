@@ -67,22 +67,49 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     break;
   }
 
-  TileEngine::Bitmap::BitmapPtr b1(std::make_shared<TileEngine::Bitmap>(20, 20));
+  RECT rc;
+  GetClientRect(g_hWnd, &rc);
+  unsigned screenWidth = rc.right - rc.left;
+  unsigned screenHeight = rc.bottom - rc.top;
+
+  TileEngine::Bitmap::BitmapPtr b1(std::make_shared<TileEngine::Bitmap>(screenWidth, screenHeight));
   {
-    auto pixels1 = b1->GetPixelsForUpdate();
-    memset(pixels1.get(), 0xFF, b1->BufSize());
+    const unsigned width = b1->Width();
+    const unsigned height = b1->Height();
+    auto pixels = b1->GetPixelsForUpdate();
+    memset(pixels.get(), 0xFF, b1->BufSize());
+    for (unsigned i = 0; i < height * width; ++i) {
+      pixels[i] = 0xffffffff;
+    }
+    for (unsigned x = 0; x < width; ++x) {
+      unsigned y = (float)x * height / width;
+      pixels[y*width + x] = (x < width/2) ? 0xff0000ff : 0xffff0000;
+    }
   }
   TileEngine::Bitmap::BitmapPtr b2(std::make_shared<TileEngine::Bitmap>(30, 30));
   {
-    auto pixels2 = b2->GetPixelsForUpdate();
-    memset(pixels2.get(), 0x88, b2->BufSize());
+    const unsigned width = b2->Width();
+    const unsigned height = b2->Height();
+    auto pixels = b2->GetPixelsForUpdate();
+    memset(pixels.get(), 0x33, b2->BufSize());
+    for (unsigned x = 0; x < width / 2; ++x) {
+      for (unsigned y = 0; y < height / 2; ++y) {
+        pixels[y*width + x] = 0x1100FFff;
+      }
+    }
+    for (unsigned x = width / 2; x < width; ++x) {
+      for (unsigned y = 0; y < height / 2; ++y) {
+        pixels[y*width + x] = 0x00999999;
+      }
+    }
   }
 
-  TileEngine::Scene::ScenePtr scene(std::make_shared<TileEngine::Scene>(300, 300));
+  TileEngine::Scene::ScenePtr scene(std::make_shared<TileEngine::Scene>(screenWidth, screenHeight));
   auto layer = scene->Root()->AddLayer(0);
-  auto region = layer->AddChild(TileEngine::Position(12, 13), 250, 250);
-  region->DrawImage(TileEngine::Position(10, 10), b1);
-  region->DrawImage(TileEngine::Position(20, 20), b2);
+  auto region = layer->AddChild(TileEngine::Position(0, 0), screenWidth, screenHeight);
+  region->DrawImage(TileEngine::Position(0, 0), b1);
+  auto region1 = region->AddLayer(1);
+  region1->DrawImage(TileEngine::Position(20, 20), b2);
 
   rendererPtr->SetScene(scene);
 
@@ -99,6 +126,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     else
     {
       rendererPtr->Render();
+      Sleep(15);
     }
   }
   return (int)msg.wParam;

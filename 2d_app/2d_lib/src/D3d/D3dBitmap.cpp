@@ -194,11 +194,11 @@ bool D3dBitmap::UpdateBuffers(ID3D11DeviceContextPtr deviceContext, const TileEn
   // See the diagram at the top of the tutorial for a complete explaination.
 
   // Calculate the screen coordinates of the left side of the bitmap.
-  const float left = (float)((m_screenWidth / 2) * -1) + (float)position.get<0>();
+  const float left = (float)((m_screenWidth/2.0) * -1.0) + (float)position.get<0>();
   // Calculate the screen coordinates of the right side of the bitmap.
   const float right = left + (float)m_bitmapWidth;
   // Calculate the screen coordinates of the top of the bitmap.
-  const float top = (float)(m_screenHeight / 2) - (float)position.get<1>();
+  const float top = (float)(m_screenHeight/2.0) - (float)position.get<1>();
   // Calculate the screen coordinates of the bottom of the bitmap.
   const float bottom = top - (float)m_bitmapHeight;
 

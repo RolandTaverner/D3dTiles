@@ -103,14 +103,14 @@ void Renderer::CreateDevice(HWND hWnd, IDXGIAdapter1Ptr adapter) {
   m_deviceContext->RSSetViewports(1, &vp);
 
   m_worldMatrix = DirectX::XMMatrixIdentity();
-  m_orthoMatrix = DirectX::XMMatrixOrthographicLH(ScreenWidth(), ScreenHeight(), 1.0, 0.0);
+  m_orthoMatrix = DirectX::XMMatrixOrthographicLH(ScreenWidth(), ScreenHeight(), 2.0, 1.0);
 
-  DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, -3.0f, 5.0f, 0.0f);
-  DirectX::XMVECTOR At = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-  DirectX::XMVECTOR Up = DirectX::XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f);
+  DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f);
+  DirectX::XMVECTOR At = DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
+  DirectX::XMVECTOR Up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
   m_viewMatrix = DirectX::XMMatrixLookAtLH(Eye, At, Up);
 
-  m_textureShader.Initialize(m_device, hWnd);
+  m_textureShader.Initialize(m_device);
 }
 
 void Renderer::InitDepthStencilBuffer(const UINT &width, const UINT &height) {
@@ -184,6 +184,7 @@ void Renderer::Render() {
   // Begin scene
   // Just clear the backbuffer
   m_deviceContext->ClearRenderTargetView(m_renderTargetView, ::DirectX::Colors::DarkBlue);
+  m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
   if (Scene()) {
     SetLevelsCount(Scene()->GetLevelsCount());
@@ -201,12 +202,12 @@ void Renderer::Render() {
 void Renderer::RenderBitmap(unsigned level, const Rect &absRect, Bitmap::BitmapPtr b) {
   const float zLevel = (float)level / (float)LevelsCount();
 
-  ID3D11ShaderResourceViewPtr tex;
+  ID3D11Texture2DPtr tex;
   if (b->IsStatic()) {
     const std::string &id = b->StaticID();
     tex = GetFromTextureCache(id);
     if (!tex) {
-      tex = Utils::CreateD3dTexture(*b);
+      tex = Utils::CreateD3dTexture(m_device, *b);
       if (tex) {
         if (!AddToTextureCache(id, tex)) {
           // TODO: adding twice or non-unique StaticID
@@ -214,20 +215,22 @@ void Renderer::RenderBitmap(unsigned level, const Rect &absRect, Bitmap::BitmapP
       }
     }
   } else {
-    tex = Utils::CreateD3dTexture(*b);
+    tex = Utils::CreateD3dTexture(m_device, *b);
   }
 
   if (!tex) {
     throw std::runtime_error("CreateD3dTexture() failed");
   }
 
+  ID3D11ShaderResourceViewPtr srv = Utils::CreateTexture2DSRV(m_device, tex);
+
   D3dBitmap bitmap;
   bitmap.Initialize(m_device, ScreenWidth(), ScreenHeight(), b->Width(), b->Height());
   bitmap.Render(m_deviceContext, absRect.min_corner(), zLevel);
 
-  const bool result = m_textureShader.Render(m_deviceContext, bitmap.GetIndexCount(), 
-    m_worldMatrix, m_viewMatrix, m_orthoMatrix, 
-    tex);
+  const bool result = m_textureShader.Render(m_deviceContext, bitmap.GetIndexCount(),
+    m_worldMatrix, m_viewMatrix, m_orthoMatrix,
+    srv);
 }
 
 void Renderer::RenderPrimitive(unsigned level) {
@@ -251,11 +254,11 @@ unsigned Renderer::LevelsCount() const {
   return m_levelsCount;
 }
 
-ID3D11ShaderResourceViewPtr Renderer::GetFromTextureCache(const std::string &id) {
+ID3D11Texture2DPtr Renderer::GetFromTextureCache(const std::string &id) {
   return m_texCache.TryGet(id);
 }
 
-bool Renderer::AddToTextureCache(const std::string &id, ID3D11ShaderResourceViewPtr texture) {
+bool Renderer::AddToTextureCache(const std::string &id, ID3D11Texture2DPtr texture) {
   return m_texCache.Set(id, texture);
 }
 

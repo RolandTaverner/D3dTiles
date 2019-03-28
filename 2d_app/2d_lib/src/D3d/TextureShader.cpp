@@ -14,12 +14,12 @@ TextureShader::TextureShader() {}
 
 TextureShader::~TextureShader() {}
 
-void TextureShader::Initialize(ID3D11DevicePtr device, HWND hWnd) {
+void TextureShader::Initialize(ID3D11DevicePtr device) {
   // Initialize the vertex and pixel shaders.
-  InitializeShader(device, hWnd, L"D3dTiles.fx", L"D3dTiles.fx");
+  InitializeShader(device, L"D3dTiles.fx", L"D3dTiles.fx");
 }
 
-void TextureShader::InitializeShader(ID3D11DevicePtr device, HWND hWnd, const std::wstring &vsFilename, const std::wstring &psFilename) {
+void TextureShader::InitializeShader(ID3D11DevicePtr device, const std::wstring &vsFilename, const std::wstring &psFilename) {
   InitVertexShader(device, vsFilename);
   InitPixelShader(device, psFilename);
 
