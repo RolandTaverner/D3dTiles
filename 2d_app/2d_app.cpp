@@ -86,7 +86,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
       pixels[y*width + x] = (x < width/2) ? 0xff0000ff : 0xffff0000;
     }
   }
-  TileEngine::Bitmap::BitmapPtr b2(std::make_shared<TileEngine::Bitmap>(30, 30));
+  TileEngine::Bitmap::BitmapPtr b2(std::make_shared<TileEngine::Bitmap>(100, 100));
   {
     const unsigned width = b2->Width();
     const unsigned height = b2->Height();

@@ -9,24 +9,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Исходные файлы\2d_lib">
-      <UniqueIdentifier>{6205e648-a790-48f7-818b-13d668968e0b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Файлы заголовков\2d_lib">
-      <UniqueIdentifier>{ca4fbe76-87e4-4438-bbea-4af890cff0d3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Файлы ресурсов">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Исходные файлы\2d_lib\D3d">
-      <UniqueIdentifier>{f25dd521-42f4-4409-8913-407960e0a7ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Файлы заголовков\2d_lib\D3d">
-      <UniqueIdentifier>{a8a7e11c-dee8-4990-aa04-ba4c12374011}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{8635c194-9410-4c78-9d85-ef2655116e7e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,42 +27,6 @@
     <ClInclude Include="2d_app.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="2d_lib\include\Geometry.h">
-      <Filter>Файлы заголовков\2d_lib</Filter>
-    </ClInclude>
-    <ClInclude Include="2d_lib\include\D3d\DXGIFactory.h">
-      <Filter>Файлы заголовков\2d_lib\D3d</Filter>
-    </ClInclude>
-    <ClInclude Include="2d_lib\include\Region.h">
-      <Filter>Файлы заголовков\2d_lib</Filter>
-    </ClInclude>
-    <ClInclude Include="2d_lib\include\RendererBase.h">
-      <Filter>Файлы заголовков\2d_lib</Filter>
-    </ClInclude>
-    <ClInclude Include="2d_lib\include\D3d\Renderer.h">
-      <Filter>Файлы заголовков\2d_lib\D3d</Filter>
-    </ClInclude>
-    <ClInclude Include="2d_lib\include\D3d\D3dInterfaces.h">
-      <Filter>Файлы заголовков\2d_lib\D3d</Filter>
-    </ClInclude>
-    <ClInclude Include="2d_lib\include\Bitmap.h">
-      <Filter>Файлы заголовков\2d_lib</Filter>
-    </ClInclude>
-    <ClInclude Include="2d_lib\include\D3d\D3dBitmap.h">
-      <Filter>Файлы заголовков\2d_lib\D3d</Filter>
-    </ClInclude>
-    <ClInclude Include="2d_lib\include\Scene.h">
-      <Filter>Файлы заголовков\2d_lib</Filter>
-    </ClInclude>
-    <ClInclude Include="2d_lib\include\D3d\D3dTextureCache.h">
-      <Filter>Файлы заголовков\2d_lib\D3d</Filter>
-    </ClInclude>
-    <ClInclude Include="2d_lib\include\D3d\D3dCreateTexture.h">
-      <Filter>Файлы заголовков\2d_lib\D3d</Filter>
-    </ClInclude>
-    <ClInclude Include="2d_lib\include\D3d\TextureShader.h">
-      <Filter>Файлы заголовков\2d_lib\D3d</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -85,33 +34,6 @@
     </ClCompile>
     <ClCompile Include="2d_app.cpp">
       <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="2d_lib\src\D3d\DXGIFactory.cpp">
-      <Filter>Исходные файлы\2d_lib\D3d</Filter>
-    </ClCompile>
-    <ClCompile Include="2d_lib\src\Region.cpp">
-      <Filter>Исходные файлы\2d_lib</Filter>
-    </ClCompile>
-    <ClCompile Include="2d_lib\src\D3d\Renderer.cpp">
-      <Filter>Исходные файлы\2d_lib\D3d</Filter>
-    </ClCompile>
-    <ClCompile Include="2d_lib\src\Bitmap.cpp">
-      <Filter>Исходные файлы\2d_lib</Filter>
-    </ClCompile>
-    <ClCompile Include="2d_lib\src\D3d\D3dBitmap.cpp">
-      <Filter>Исходные файлы\2d_lib\D3d</Filter>
-    </ClCompile>
-    <ClCompile Include="2d_lib\src\Scene.cpp">
-      <Filter>Исходные файлы\2d_lib</Filter>
-    </ClCompile>
-    <ClCompile Include="2d_lib\src\D3d\D3dTextureCache.cpp">
-      <Filter>Исходные файлы\2d_lib\D3d</Filter>
-    </ClCompile>
-    <ClCompile Include="2d_lib\src\D3d\D3dCreateTexture.cpp">
-      <Filter>Исходные файлы\2d_lib\D3d</Filter>
-    </ClCompile>
-    <ClCompile Include="2d_lib\src\D3d\TextureShader.cpp">
-      <Filter>Исходные файлы\2d_lib\D3d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -126,16 +48,5 @@
     <Image Include="2d_app.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Shaders\D3dTiles.fx">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Shaders\D3dTiles_PS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Shaders\D3dTiles_VS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>
