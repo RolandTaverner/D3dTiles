@@ -85,10 +85,9 @@ void Renderer::CreateDevice(HWND hWnd, IDXGIAdapter1Ptr adapter) {
   backBuffer.Release();
 
   InitDepthStencilBuffer(ScreenWidth(), ScreenHeight());
-
   InitDepthStencilState();
-
   InitDepthStencilView();
+  InitBlendStateAlphaBlend();
 
   m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView.GetInterfacePtr(), m_depthStencilView);
 
@@ -141,7 +140,7 @@ void Renderer::InitDepthStencilState() {
   D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
   memset(&depthStencilDesc, 0, sizeof(depthStencilDesc));
 
-  depthStencilDesc.DepthEnable = true;
+  depthStencilDesc.DepthEnable = false;
   depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
   depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
   depthStencilDesc.StencilEnable = true;
@@ -180,11 +179,33 @@ void Renderer::InitDepthStencilView() {
   }
 }
 
+void Renderer::InitBlendStateAlphaBlend() {
+  D3D11_BLEND_DESC blendState;
+  memset(&blendState, 0, sizeof(blendState));
+
+  blendState.RenderTarget[0].BlendEnable = TRUE;
+  blendState.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+  blendState.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+  blendState.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+  blendState.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+  blendState.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+  blendState.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+  blendState.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+  HRESULT hr = m_device->CreateBlendState(&blendState, &m_blendStateAlphaBlend.GetInterfacePtr());
+  if (FAILED(hr)) {
+    throw std::runtime_error("CreateBlendState() failed");
+  }
+}
+
 void Renderer::Render() {
   // Begin scene
   // Just clear the backbuffer
   m_deviceContext->ClearRenderTargetView(m_renderTargetView, ::DirectX::Colors::DarkBlue);
   m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+  
+  float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+  m_deviceContext->OMSetBlendState(m_blendStateAlphaBlend, blendFactor, 0xffffffff);
 
   if (Scene()) {
     SetLevelsCount(Scene()->GetLevelsCount());

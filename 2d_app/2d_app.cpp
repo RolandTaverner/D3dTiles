@@ -94,12 +94,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     memset(pixels.get(), 0x33, b2->BufSize());
     for (unsigned x = 0; x < width / 2; ++x) {
       for (unsigned y = 0; y < height / 2; ++y) {
-        pixels[y*width + x] = 0x1100FFff;
+        pixels[y*width + x] = 0xA000FFff;
       }
     }
     for (unsigned x = width / 2; x < width; ++x) {
       for (unsigned y = 0; y < height / 2; ++y) {
-        pixels[y*width + x] = 0x00999999;
+        pixels[y*width + x] = 0xA0990000;
       }
     }
   }

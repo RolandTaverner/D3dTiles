@@ -44,7 +44,7 @@ private:
   void InitDepthStencilState();
   void InitDepthStencilBuffer(const UINT &width, const UINT &height);
   void InitDepthStencilView();
-
+  void InitBlendStateAlphaBlend();
 
   // Render helper functions
   void SetLevelsCount(unsigned levels);
@@ -64,6 +64,7 @@ private:
   ID3D11Texture2DPtr m_depthStencilBuffer;
   ID3D11DepthStencilStatePtr m_depthStencilState;
   ID3D11DepthStencilViewPtr m_depthStencilView;
+  ID3D11BlendStatePtr m_blendStateAlphaBlend;
 
   DirectX::XMMATRIX m_worldMatrix;
   DirectX::XMMATRIX m_orthoMatrix;
