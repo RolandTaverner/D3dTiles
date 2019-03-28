@@ -1,11 +1,11 @@
-﻿// 2d_app.cpp : Определяет точку входа для приложения.
+﻿// D3dTilesTest.cpp : Определяет точку входа для приложения.
 //
 
 #include "stdafx.h"
 
 #include <memory>
 
-#include "2d_app.h"
+#include "D3dTilesTest.h"
 
 #include "Bitmap.h"
 #include "Scene.h"
@@ -39,7 +39,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
   // Инициализация глобальных строк
   LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-  LoadStringW(hInstance, IDC_MY2DAPP, szWindowClass, MAX_LOADSTRING);
+  LoadStringW(hInstance, IDC_MYD3DTILESTEST, szWindowClass, MAX_LOADSTRING);
   MyRegisterClass(hInstance);
 
   // Выполнить инициализацию приложения:
@@ -113,7 +113,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
   rendererPtr->SetScene(scene);
 
-  HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MY2DAPP));
+  HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MYD3DTILESTEST));
 
   MSG msg = { 0 };
   while (WM_QUIT != msg.message)
@@ -169,10 +169,10 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
   wcex.cbClsExtra = 0;
   wcex.cbWndExtra = 0;
   wcex.hInstance = hInstance;
-  wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MY2DAPP));
+  wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MYD3DTILESTEST));
   wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
   wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-  wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_MY2DAPP);
+  wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_MYD3DTILESTEST);
   wcex.lpszClassName = szWindowClass;
   wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 

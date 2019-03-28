@@ -20,10 +20,11 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{5033E8FD-69E9-4FB0-8D85-D177621D2DC9}</ProjectGuid>
+    <ProjectGuid>{A49729F8-AF25-47D2-BF1E-6D4F31D9596A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>My2dapp</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <ProjectName>D3dTilesTest</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -167,13 +168,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="2d_app.h" />
+    <ClInclude Include="D3dTilesTest.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="2d_app.cpp" />
+    <ClCompile Include="D3dTilesTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -182,10 +183,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="2d_app.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="2d_app.ico" />
+    <Image Include="D3dTilesTest.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +191,9 @@
       <Project>{5fb4968f-f321-4d8e-b700-b9b7454b7e99}</Project>
       <Private>false</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="D3dTilesTest.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
