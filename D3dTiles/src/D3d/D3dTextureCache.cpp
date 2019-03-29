@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "D3d/D3dTextureCache.h"
+#include "D3dTiles/D3d/D3dTextureCache.h"
 
 namespace TileEngine {
 namespace D3d {
@@ -20,6 +20,10 @@ ID3D11Texture2DPtr TextureCache::TryGet(const std::string &id) {
 bool TextureCache::Set(const std::string &id, ID3D11Texture2DPtr texture) {
   auto[it, result] = m_cache.try_emplace(id, texture);
   return result;
+}
+
+void TextureCache::Clear() {
+  m_cache.clear();
 }
 
 } // namespace D3d
