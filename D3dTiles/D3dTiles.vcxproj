@@ -59,19 +59,19 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\boost.props" />
+    <Import Project="..\externals.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\boost.props" />
+    <Import Project="..\externals.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\boost.props" />
+    <Import Project="..\externals.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\boost.props" />
+    <Import Project="..\externals.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -96,7 +96,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_ITERATOR_DEBUG_LEVEL=2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -168,15 +168,20 @@
     <ClInclude Include="include\D3dTiles\Color.h" />
     <ClInclude Include="include\D3dTiles\D3d\D3dBitmap.h" />
     <ClInclude Include="include\D3dTiles\D3d\D3dCreateTexture.h" />
+    <ClInclude Include="include\D3dTiles\D3d\D3dFont.h" />
+    <ClInclude Include="include\D3dTiles\D3d\D3dFontManager.h" />
     <ClInclude Include="include\D3dTiles\D3d\D3dInterfaces.h" />
     <ClInclude Include="include\D3dTiles\D3d\D3dTextureCache.h" />
     <ClInclude Include="include\D3dTiles\D3d\DXGIFactory.h" />
     <ClInclude Include="include\D3dTiles\D3d\Renderer.h" />
     <ClInclude Include="include\D3dTiles\D3d\TextureShader.h" />
+    <ClInclude Include="include\D3dTiles\Font.h" />
+    <ClInclude Include="include\D3dTiles\FontManager.h" />
     <ClInclude Include="include\D3dTiles\Geometry.h" />
     <ClInclude Include="include\D3dTiles\Primitives\ColoredRectangle.h" />
     <ClInclude Include="include\D3dTiles\Primitives\Primitive.h" />
     <ClInclude Include="include\D3dTiles\Primitives\Rectangle.h" />
+    <ClInclude Include="include\D3dTiles\Primitives\Text.h" />
     <ClInclude Include="include\D3dTiles\Primitives\TexturedRectangle.h" />
     <ClInclude Include="include\D3dTiles\Region.h" />
     <ClInclude Include="include\D3dTiles\RendererBase.h" />
@@ -189,13 +194,18 @@
     <ClCompile Include="src\Color.cpp" />
     <ClCompile Include="src\D3d\D3dBitmap.cpp" />
     <ClCompile Include="src\D3d\D3dCreateTexture.cpp" />
+    <ClCompile Include="src\D3d\D3dFont.cpp" />
+    <ClCompile Include="src\D3d\D3dFontManager.cpp" />
     <ClCompile Include="src\D3d\D3dTextureCache.cpp" />
     <ClCompile Include="src\D3d\DXGIFactory.cpp" />
     <ClCompile Include="src\D3d\Renderer.cpp" />
     <ClCompile Include="src\D3d\TextureShader.cpp" />
+    <ClCompile Include="src\Font.cpp" />
+    <ClCompile Include="src\FontManager.cpp" />
     <ClCompile Include="src\Primitives\ColoredRectangle.cpp" />
     <ClCompile Include="src\Primitives\Primitive.cpp" />
     <ClCompile Include="src\Primitives\Rectangle.cpp" />
+    <ClCompile Include="src\Primitives\Text.cpp" />
     <ClCompile Include="src\Primitives\TexturedRectangle.cpp" />
     <ClCompile Include="src\Region.cpp" />
     <ClCompile Include="src\Scene.cpp" />
