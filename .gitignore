@@ -330,4 +330,4 @@ ASALocalRun/
 .mfractor/
 
 # Extarnal deps
-ctp2_code/externals
+externals/

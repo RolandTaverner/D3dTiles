@@ -42,6 +42,10 @@ Color Text::GetTextColor() const {
   return m_textColor;
 }
 
+float Text::GetScale() const {
+  return m_scale;
+}
+
 unsigned Text::Width() const {
   Font::Ptr font = m_fontManager->GetFont(GetFontFace(), GetFontSize(), GetFontStyle());
   return font->GetTextWidth(m_text);
@@ -49,7 +53,7 @@ unsigned Text::Width() const {
 
 unsigned Text::Height() const {
   Font::Ptr font = m_fontManager->GetFont(GetFontFace(), GetFontSize(), GetFontStyle());
-  return font->GetTextHeight(m_text);
+  return font->GetTextHeight(m_text)*m_scale;
 }
 
 Text::~Text() {}
