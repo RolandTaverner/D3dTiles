@@ -28,6 +28,8 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 HWND g_hWnd;
 
+#define DEFAULT_FONTSIZE 32
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
   _In_opt_ HINSTANCE hPrevInstance,
   _In_ LPWSTR    lpCmdLine,
@@ -68,7 +70,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     break;
   }
 
-  rendererPtr->LoadFont("arial.spritefont", "Arial", TileEngine::FONTSTYLE_REGULAR);
+  rendererPtr->LoadFont("arial.spritefont", "Arial", DEFAULT_FONTSIZE, TileEngine::FONTSTYLE_REGULAR);
 
   RECT rc;
   GetClientRect(g_hWnd, &rc);
@@ -125,7 +127,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
   TileEngine::Text::Ptr text = std::make_shared<TileEngine::Text>(
     rendererPtr->GetFontManager(),
-    TileEngine::FontDesc("Arial", TileEngine::FONTSTYLE_REGULAR), 
+    TileEngine::FontDesc("Arial", DEFAULT_FONTSIZE, TileEngine::FONTSTYLE_REGULAR),
     "Test text", TileEngine::MakeColor(255, 100, 0, 0xFF));
 
   region3->DrawPrimitive(TileEngine::Position(0, 50), text);

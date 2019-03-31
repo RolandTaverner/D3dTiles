@@ -23,11 +23,15 @@ Text::Text(FontManager::Ptr fontManager, FontDesc font, const std::string &text,
   Text(fontManager, font, text, textColor, Color(0u), Position(), bounds, BOUNDTEXT, scale) {}
 
 const std::string Text::GetFontFace() const {
-  return m_font.first;
+  return std::get<0>(m_font);
+}
+
+unsigned Text::GetFontSize() const {
+  return std::get<1>(m_font);
 }
 
 FontStyle Text::GetFontStyle() const {
-  return m_font.second;
+  return std::get<2>(m_font);
 }
 
 const std::string Text::GetText() const {
@@ -39,12 +43,12 @@ Color Text::GetTextColor() const {
 }
 
 unsigned Text::Width() const {
-  Font::Ptr font = m_fontManager->GetFont(m_font.first, m_font.second);
+  Font::Ptr font = m_fontManager->GetFont(GetFontFace(), GetFontSize(), GetFontStyle());
   return font->GetTextWidth(m_text);
 }
 
 unsigned Text::Height() const {
-  Font::Ptr font = m_fontManager->GetFont(m_font.first, m_font.second);
+  Font::Ptr font = m_fontManager->GetFont(GetFontFace(), GetFontSize(), GetFontStyle());
   return font->GetTextHeight(m_text);
 }
 
